@@ -333,6 +333,10 @@ func (hp *hostPath) ControllerUnpublishVolume(ctx context.Context, req *csi.Cont
 		return nil, status.Errorf(codes.NotFound, "Node ID %s does not match to expected Node ID %s", req.NodeId, hp.config.NodeID)
 	}
 
+	if _, err := os.Stat("/tmp/detach-error"); err == nil {
+		return nil, status.Errorf(codes.DeadlineExceeded, "Simulated detach error")
+	}
+
 	hp.mutex.Lock()
 	defer hp.mutex.Unlock()
 

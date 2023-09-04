@@ -218,12 +218,13 @@ spec:
       serviceAccountName: csi-hostpathplugin-sa
       containers:
         - name: hostpath
-          image: registry.k8s.io/sig-storage/hostpathplugin:v1.9.0
+          image: quay.io/jsafrane/scratch:hostpath1
           args:
             - "--drivername=hostpath.csi.k8s.io"
             - "--v=5"
             - "--endpoint=$(CSI_ENDPOINT)"
             - "--nodeid=$(KUBE_NODE_NAME)"
+            - "-enable-attach"
           env:
             - name: CSI_ENDPOINT
               value: unix:///csi/csi.sock
